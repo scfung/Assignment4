@@ -314,7 +314,7 @@ void quickSortFirst(vector<Comparable> &a, Comparable left, Comparable right, Co
     if(left + 10 <= right)
     {
         const Comparable & pivot = first(a, left, right);
-        int i = left, j = right - 1;
+        int i = left-1, j = right - 1;
         
         for(;;)
         {

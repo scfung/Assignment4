@@ -81,8 +81,8 @@ void insertionSort( vector<Comparable> & a, Comparable left, Comparable right, C
 /**
  * Shellsort, using Shell's (poor) increments.
  */
-template <typename Comparable>
-void shellsort( vector<Comparable> & a )
+template <typename Comparable, typename Comparator>
+void shellsort( vector<Comparable> & a, Comparator less_than)
 {
     for( int gap = a.size( ) / 2; gap > 0; gap /= 2 )
         for( int i = gap; i < a.size( ); ++i )
@@ -90,7 +90,7 @@ void shellsort( vector<Comparable> & a )
             Comparable tmp = std::move( a[ i ] );
             int j = i;
 
-            for( ; j >= gap && tmp < a[ j - gap ]; j -= gap )
+            for( ; j >= gap && less_than(tmp, a[ j - gap ]); j -= gap )
                 a[ j ] = std::move( a[ j - gap ] );
             a[ j ] = std::move( tmp );
         }

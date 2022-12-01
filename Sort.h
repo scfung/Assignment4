@@ -37,15 +37,15 @@ const Comparable & first(vector<Comparable> &a, Comparable left, Comparable righ
 /**
  * Simple insertion sort.
  */
-template <typename Comparable>
-void insertionSort( vector<Comparable> & a )
+template <typename Comparable, typename Comparator>
+void insertionSort( vector<Comparable> & a, Comparator less_than )
 {
     for( int p = 1; p < a.size( ); ++p )
     {
         Comparable tmp = std::move( a[ p ] );
 
         int j;
-        for( j = p; j > 0 && tmp < a[ j - 1 ]; --j )
+        for( j = p; j > 0 && less_than(tmp, a[ j - 1 ]); --j )
             a[ j ] = std::move( a[ j - 1 ] );
         a[ j ] = std::move( tmp );
     }
@@ -100,14 +100,14 @@ void shellsort( vector<Comparable> & a )
  * Standard heapsort.
  */
 template <typename Comparable>
-void heapsort( vector<Comparable> & a )
+void heapsort( vector<Comparable> & a)
 {
     for( int i = a.size( ) / 2 - 1; i >= 0; --i )  /* buildHeap */
-        percDown( a, i, a.size( ) );
+        percDown( a, i, a.size( ));
     for( int j = a.size( ) - 1; j > 0; --j )
     {
         std::swap( a[ 0 ], a[ j ] );               /* deleteMax */
-        percDown( a, 0, j );
+        percDown( a, 0, j);
     }
 }
 
@@ -420,7 +420,7 @@ template <typename Comparable, typename Comparator>
 void HeapSort(vector<Comparable> &a, Comparator less_than) {
   // Add code. You can use any of functions above (after you modified them), or any other helper
   // function you write.
-    for(int i = a.size()/2 - 1; i >=0; i--)
+    for(int i = a.size()/2 - 1; i >= 0; i--)
     {
         int max = a.size();
         percDown(a, i, max, less_than);
@@ -442,7 +442,6 @@ void MergeSort(vector<Comparable> &a, Comparator less_than) {
     vector<Comparable> temp(a.size());
     Comparable left_pos = a.size() - 1;
     mergeSort(a, temp, 0, left_pos, less_than);
-
 }
 
 // Driver for QuickSort (median of 3 partitioning).

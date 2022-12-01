@@ -292,7 +292,7 @@ void quickSortMiddle(vector<Comparable> &a, Comparable left, Comparable right, C
             while(less_than(pivot, a[j--])){}
             if(i<j)
             {
-                swap([a[i], a[j]);
+                swap(a[i], a[j]);
             }
             else
                 break;
@@ -301,8 +301,8 @@ void quickSortMiddle(vector<Comparable> &a, Comparable left, Comparable right, C
         quickSortMiddle(a, left, i-1, less_than);
         quickSortMiddle(a, i+1, right, less_than);
     }
-    else
-    {
+    
+    else{
         insertionSort(a, left, right, less_than);
     }
 }
@@ -313,7 +313,7 @@ void quickSortFirst(vector<Comparable> &a, Comparable left, Comparable right, Co
 {
     if(left + 10 <= right)
     {
-        const Comparable & pivot - first(a, left, right);
+        const Comparable & pivot = first(a, left, right);
         int i = left-1, j = right - 1;
         
         for(;;)
@@ -474,7 +474,7 @@ template <typename Comparable, typename Comparator>
 void QuickSort3(vector<Comparable> &a, Comparator less_than) {
   // quicksort implementation
   // to be filled
-    Comparable left = 0
+    Comparable left = 0;
     Comparable right = a.size() - 1;
     quickSortFirst(a, left, right, less_than);
 }

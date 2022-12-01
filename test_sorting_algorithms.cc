@@ -14,8 +14,7 @@ using namespace std;
 
 // Computes duration given a start time and a stop time in nano seconds.
 // Keep it in.
-long long ComputeDuration(chrono::high_resolution_clock::time_point start_time, 
-			  chrono::high_resolution_clock::time_point end_time) {
+long long ComputeDuration(chrono::high_resolution_clock::time_point start_time, chrono::high_resolution_clock::time_point end_time) {
   return chrono::duration_cast<chrono::nanoseconds>(end_time - start_time).count();
 }
 

@@ -67,7 +67,9 @@
 
 -All other sorts were list index out of range.
 
+-merge function was not properly placed, caused issues and was fixed by moving if before the mergeSort.
 
+-
 
 **How to run:**
 

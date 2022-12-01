@@ -30,7 +30,7 @@ const Comparable & middle(vector<Comparable> &a, Comparable left, Comparable rig
 template <typename Comparable>
 const Comparable & first(vector<Comparable> &a, Comparable left, Comparable right)
 {
-    int first = left;
+    int first = left + 1;
     swap(a[first], a[right-1]);
     return a[right-1];
 }
@@ -194,7 +194,7 @@ void merge( vector<Comparable> & a, vector<Comparable> &tmpArray, Comparable lef
 
     // Main loop
     while( leftPos <= leftEnd && rightPos <= rightEnd )
-        if( less_than(a[ leftPos ], a[ rightPos ]) )
+        if( less_than(a[ leftPos ], a[ rightPos ]) || a[leftPos] == a[rightPos])
             tmpArray[ tmpPos++ ] = std::move( a[ leftPos++ ] );
         else
             tmpArray[ tmpPos++ ] = std::move( a[ rightPos++ ] );
@@ -314,7 +314,7 @@ void quickSortFirst(vector<Comparable> &a, Comparable left, Comparable right, Co
     if(left + 10 <= right)
     {
         const Comparable & pivot = first(a, left, right);
-        int i = left-1, j = right - 1;
+        int i = left, j = right - 1;
         
         for(;;)
         {

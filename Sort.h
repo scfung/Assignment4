@@ -30,13 +30,15 @@ const Comparable & middle(vector<Comparable> &a, Comparable left, Comparable rig
 template <typename Comparable>
 const Comparable & first(vector<Comparable> &a, Comparable left, Comparable right)
 {
-    int first = left + 1;
+    int first = left;
     swap(a[first], a[right-1]);
     return a[right-1];
 }
+
 /**
  * Simple insertion sort.
  */
+//Added comparator to make compatible with other sort functions
 template <typename Comparable, typename Comparator>
 void insertionSort( vector<Comparable> & a, Comparator less_than )
 {
@@ -59,6 +61,7 @@ void insertionSort( vector<Comparable> & a, Comparator less_than )
  * left is the left-most index of the subarray.
  * right is the right-most index of the subarray.
  */
+//Added Comparator and changed int parameters to Comparable to allows use by the other sorting functions
 template <typename Comparable, typename Comparator>
 void insertionSort( vector<Comparable> & a, Comparable left, Comparable right, Comparator less_than )
 {
@@ -81,6 +84,7 @@ void insertionSort( vector<Comparable> & a, Comparable left, Comparable right, C
 /**
  * Shellsort, using Shell's (poor) increments.
  */
+//Added comparator to allow uses with Comparable and Comparator parameters in the test_sort_algorithm.cc file
 template <typename Comparable, typename Comparator>
 void shellsort( vector<Comparable> & a, Comparator less_than)
 {
@@ -127,6 +131,7 @@ inline int leftChild( int i )
  * i is the position from which to percolate down.
  * n is the logical size of the binary heap.
  */
+//Added Comparator and changed int parameters to Comparable to allow the function use with heap sort.
 template <typename Comparable, typename Comparator>
 void percDown( vector<Comparable> & a, Comparable i, Comparable n, Comparator less_than)
 {
@@ -154,6 +159,7 @@ void percDown( vector<Comparable> & a, Comparable i, Comparable n, Comparator le
  * rightPos is the index of the start of the second half.
  * rightEnd is the right-most index of the subarray.
  */
+//Added Comparator and changed int parameters to Comparable to allows this function to be used by the merge sort functions.
 template <typename Comparable, typename Comparator>
 void merge( vector<Comparable> & a, vector<Comparable> &tmpArray, Comparable leftPos, Comparable rightPos, Comparable rightEnd, Comparator less_than)
 {
@@ -186,6 +192,7 @@ void merge( vector<Comparable> & a, vector<Comparable> &tmpArray, Comparable lef
  * left is the left-most index of the subarray.
  * right is the right-most index of the subarray.
  */
+//Added Comparator and changed int parameters to Comparable so that the wrapper version of merge sort can be called.
 template <typename Comparable, typename Comparator>
 void mergeSort( vector<Comparable> & a, vector<Comparable> & tmpArray, Comparable left, Comparable right, Comparator less_than)
 {
@@ -215,6 +222,7 @@ void mergeSort( vector<Comparable> & a )
  * Return median of left, center, and right.
  * Order these and hide the pivot.
  */
+//Added a Comparator and changed the int parameters to Comparable to allow function to be used by the first quick sort.
 template <typename Comparable, typename Comparator>
 const Comparable & median3( vector<Comparable> & a, Comparable left, Comparable right, Comparator less_than )
 {
@@ -239,6 +247,7 @@ const Comparable & median3( vector<Comparable> & a, Comparable left, Comparable 
  * left is the left-most index of the subarray.
  * right is the right-most index of the subarray.
  */
+//Added Comparator and changed int parameters to Comparable to allow function to be called by QuickSort1
 template <typename Comparable, typename Comparator>
 void quicksort( vector<Comparable> & a, Comparable left, Comparable right, Comparator less_than )
 {
@@ -297,12 +306,13 @@ void quickSortMiddle(vector<Comparable> &a, Comparable left, Comparable right, C
             else
                 break;
         }
-        swap(a[i], a[right-1]);
-        quickSortMiddle(a, left, i-1, less_than);
-        quickSortMiddle(a, i+1, right, less_than);
+        std::swap(a[i], a[right-1]);
+        quickSortMiddle(a, left, i - 1, less_than);
+        quickSortMiddle(a, i + 1, right, less_than);
     }
     
-    else{
+    else
+    {
         insertionSort(a, left, right, less_than);
     }
 }
@@ -314,13 +324,13 @@ void quickSortFirst(vector<Comparable> &a, Comparable left, Comparable right, Co
     if(left + 10 <= right)
     {
         const Comparable & pivot = first(a, left, right);
-        int i = left-1, j = right - 1;
+        
+        int i = left , j = right+1;
         
         for(;;)
         {
             while(less_than(a[i++], pivot)){}
             while(less_than(pivot, a[j--])){}
-            
             if(i<j)
             {
                 swap(a[i], a[j]);
@@ -328,50 +338,13 @@ void quickSortFirst(vector<Comparable> &a, Comparable left, Comparable right, Co
             else
                 break;
         }
-        swap(a[i], a[right-1]);
+        std::swap(a[j], a[left]);
         quickSortFirst(a, left, i-1, less_than);
         quickSortFirst(a, i+1, right, less_than);
     }
     else
     {
         insertionSort(a, left, right, less_than);
-    }
-}
-
-template <typename Comparable>
-void SORT( vector<Comparable> & items )
-{
-    if( items.size( ) > 1 )
-    {
-        vector<Comparable> smaller;
-        vector<Comparable> same;
-        vector<Comparable> larger;
-        
-        auto chosenItem = items[ items.size( ) / 2 ];
-        
-        for( auto & i : items )
-        {
-            if( i < chosenItem )
-                smaller.push_back( std::move( i ) );
-            else if( chosenItem < i )
-                larger.push_back( std::move( i ) );
-            else
-                same.push_back( std::move( i ) );
-        }
-        
-        SORT( smaller );     // Recursive call!
-        SORT( larger );      // Recursive call!
-        
-        std::move( begin( smaller ), end( smaller ), begin( items ) );
-        std::move( begin( same ), end( same ), begin( items ) + smaller.size( ) );
-        std::move( begin( larger ), end( larger ), end( items ) - larger.size( ) );
-
-/*
-        items.clear( );
-        items.insert( end( items ), begin( smaller ), end( smaller ) );
-        items.insert( end( items ), begin( same ), end( same ) );
-        items.insert( end( items ), begin( larger ), end( larger ) );
-*/
     }
 }
 

@@ -30,7 +30,7 @@ const Comparable & middle(vector<Comparable> &a, Comparable left, Comparable rig
 template <typename Comparable>
 const Comparable & first(vector<Comparable> &a, Comparable left, Comparable right)
 {
-    int first = left;
+    int first = left + 1;
     swap(a[first], a[right-1]);
     return a[right-1];
 }
@@ -325,7 +325,7 @@ void quickSortFirst(vector<Comparable> &a, Comparable left, Comparable right, Co
     {
         const Comparable & pivot = first(a, left, right);
         
-        int i = left , j = right+1;
+        int i = left-1 , j = right+1;
         
         for(;;)
         {
@@ -338,7 +338,7 @@ void quickSortFirst(vector<Comparable> &a, Comparable left, Comparable right, Co
             else
                 break;
         }
-        std::swap(a[j], a[left]);
+        std::swap(a[i], a[left]);
         quickSortFirst(a, left, i-1, less_than);
         quickSortFirst(a, i+1, right, less_than);
     }
